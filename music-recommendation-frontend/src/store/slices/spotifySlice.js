@@ -1,6 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+/**
+ * Fetches the user's listening history from Spotify using the Spotify API.
+ * It categorizes each song's time of day based on when it was played.
+ *
+ * @param {string} accessToken - The Spotify access token for authentication.
+ * @returns {Array} - A list of songs with track name, artist, played time, and time of day category.
+ */
 export const fetchListeningHistory = createAsyncThunk(
     "spotify/fetchListeningHistory",
     async (accessToken) => {
@@ -27,12 +34,19 @@ export const fetchListeningHistory = createAsyncThunk(
     }
 );
 
+/**
+ * Determines the time of day based on the hour of the song's playback.
+ *
+ * @param {number} hour - The hour of the song's playback (0-23).
+ * @returns {string} - A string representing the time of day ("Morning", "Afternoon", "Evening").
+ */
 export const determineCurrentTimeOfDay = (hour) => {
     if (hour >= 5 && hour < 12) return "Morning";
     if (hour >= 12 && hour < 17) return "Afternoon";
     return "Evening";
 };
 
+// The initial state for the spotify slice, which includes access token, listening history, and time of day.
 const spotifySlice = createSlice({
     name: "spotify",
     initialState: {
@@ -42,9 +56,11 @@ const spotifySlice = createSlice({
         status: "idle",
     },
     reducers: {
+        // Sets the access token for Spotify authentication
         setAccessToken: (state, action) => {
             state.accessToken = action.payload;
         },
+        // Sets the time of day for recommendations
         setTimeOfDay: (state, action) => {
             state.timeOfDay = action.payload;
         },

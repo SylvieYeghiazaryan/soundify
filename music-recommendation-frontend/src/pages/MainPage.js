@@ -30,6 +30,7 @@ const MainPage = () => {
     const timeOfDay = useSelector((state) => state.spotify.timeOfDay);
     const recommendations = useSelector((state) => state.recommendations.recommendations);
 
+    // Fetch listening history when access token is available.
     useEffect(() => {
         if (accessToken) {
             dispatch(fetchListeningHistory(accessToken));
@@ -38,6 +39,7 @@ const MainPage = () => {
 
 
     useEffect(() => {
+        // Fetch recommendations when listening history and time of day are available.
         if (listeningHistory.length > 0 && timeOfDay) {
             dispatch(
                 fetchRecommendations({
@@ -49,6 +51,7 @@ const MainPage = () => {
         }
     }, [listeningHistory, timeOfDay, accessToken, dispatch]);
 
+    // Handler for applying genre and mood filters.
     const handleFilterChange = () => {
         dispatch(
             fetchFilteredRecommendations({
@@ -61,13 +64,15 @@ const MainPage = () => {
         );
     };
 
+    // Handler for executing search with the query.
     const handleSearchQuery = () => {
         dispatch(fetchSearchRecommendations({ query: searchQuery, accessToken }));
     };
 
+    // Handler for playing a specific song by URI.
     const playSong = (uri) => {
         setCurrentlyPlayingUri(uri);
-        setTrackURIs([uri]);
+        setTrackURIs([uri]); // Set the track URI for the player.
     };
 
     return (

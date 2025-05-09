@@ -13,15 +13,18 @@ const LoginPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    // Function to handle Spotify login and redirect the user to Spotify's authentication page.
     const loginToSpotify = () => {
         const authUrl = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${REDIRECT_URI}&scope=${SCOPES}`;
         window.location.href = authUrl;
     };
 
     useEffect(() => {
+        // Check if the access token is present in the URL hash parameters after redirect.
         const hashParams = new URLSearchParams(window.location.hash.substring(1));
         const accessToken = hashParams.get("access_token");
 
+        // If the access token exists, store it and set the time of day for recommendations.
         if (accessToken) {
             dispatch(setAccessToken(accessToken));
 
@@ -31,6 +34,7 @@ const LoginPage = () => {
             const timeOfDay = determineCurrentTimeOfDay(currentHour);
             dispatch(setTimeOfDay(timeOfDay));
 
+            // Navigate to the main page after successful login.
             navigate("/main");
         }
     }, [dispatch, navigate]);

@@ -1,6 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+/**
+ * Fetches metadata (URI and album cover) for a given track and artist using the Spotify API.
+ *
+ * @param {string} trackName - The name of the track.
+ * @param {string} artistName - The name of the artist.
+ * @param {string} accessToken - The Spotify access token for authentication.
+ * @returns {object} - An object containing the URI of the track and its album cover URL.
+ */
 const fetchSongMetadata = async (trackName, artistName, accessToken) => {
     try {
         const response = await axios.get(`https://api.spotify.com/v1/search`, {
@@ -29,6 +37,16 @@ const fetchSongMetadata = async (trackName, artistName, accessToken) => {
     }
 };
 
+/**
+ * Fetches music recommendations based on the user's listening history and time of day.
+ * It sends the request to the backend and fetches metadata for each song in the response.
+ *
+ * @param {object} param0 - The payload containing time_of_day, listening_history, and accessToken.
+ * @param {string} param0.time_of_day - The time of day (e.g., "Morning", "Afternoon").
+ * @param {Array} param0.listening_history - The list of songs in the user's listening history.
+ * @param {string} param0.accessToken - The Spotify access token for authentication.
+ * @returns {Array} - A list of recommended songs, each with track name, artist, genre, URI, and album cover.
+ */
 export const fetchRecommendations = createAsyncThunk(
     "spotify/fetchRecommendations",
     async ({ time_of_day, listening_history, accessToken }, { rejectWithValue }) => {
@@ -57,6 +75,18 @@ export const fetchRecommendations = createAsyncThunk(
     }
 );
 
+/**
+ * Fetches filtered music recommendations based on the user's time of day, listening history, genre, and mood.
+ * It sends the request to the backend and fetches metadata for each song in the response.
+ *
+ * @param {object} param0 - The payload containing time_of_day, listening_history, genre, mood, and accessToken.
+ * @param {string} param0.time_of_day - The time of day (e.g., "Morning", "Afternoon").
+ * @param {Array} param0.listening_history - The list of songs in the user's listening history.
+ * @param {string} param0.genre - The preferred genre for filtering.
+ * @param {string} param0.mood - The current mood for filtering.
+ * @param {string} param0.accessToken - The Spotify access token for authentication.
+ * @returns {Array} - A list of filtered recommendations with track name, artist, genre, URI, and album cover.
+ */
 export const fetchFilteredRecommendations = createAsyncThunk(
     "spotify/fetchFilteredRecommendations",
     async ({ time_of_day, listening_history, genre, mood, accessToken }, { rejectWithValue }) => {
@@ -85,6 +115,15 @@ export const fetchFilteredRecommendations = createAsyncThunk(
     }
 );
 
+/**
+ * Fetches music recommendations based on a natural language search query.
+ * It sends the request to the backend and fetches metadata for each song in the response.
+ *
+ * @param {object} param0 - The payload containing the search query and accessToken.
+ * @param {string} param0.query - The natural language search query.
+ * @param {string} param0.accessToken - The Spotify access token for authentication.
+ * @returns {Array} - A list of recommendations based on the search query with track name, artist, URI, and album cover.
+ */
 export const fetchSearchRecommendations = createAsyncThunk(
     "spotify/fetchSearchRecommendations",
     async ({ query, accessToken }, { rejectWithValue }) => {
@@ -113,6 +152,7 @@ export const fetchSearchRecommendations = createAsyncThunk(
     }
 );
 
+// The initial state for the recommendations slice, including recommendations, loading state, and any errors.
 const recommendationsSlice = createSlice({
     name: "spotify",
     initialState: {

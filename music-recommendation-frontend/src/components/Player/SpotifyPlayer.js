@@ -20,9 +20,11 @@ const SpotifyPlayerComponent = ({ accessToken, uris }) => {
     });
     const [volume, setVolume] = useState(50);
 
+    // Effect hook to initialize Spotify Web Playback SDK when the component mounts
     useEffect(() => {
         const loadSpotifySDK = () => {
             window.onSpotifyWebPlaybackSDKReady = () => {
+                // Initialize the Spotify player with authentication token
                 const spotifyPlayer = new window.Spotify.Player({
                     name: "Soundify Web Player",
                     getOAuthToken: (cb) => cb(accessToken),
@@ -30,11 +32,13 @@ const SpotifyPlayerComponent = ({ accessToken, uris }) => {
 
                 setPlayer(spotifyPlayer);
 
+                // Add listener for player readiness
                 spotifyPlayer.addListener("ready", ({ device_id }) => {
                     console.log("Player is ready with Device ID:", device_id);
                     setDeviceId(device_id);
                 });
 
+                // Add listener for changes in player state (track changes, pause/resume)
                 spotifyPlayer.addListener("player_state_changed", (state) => {
                     if (state) {
                         const currentTrack = state.track_window.current_track;
@@ -46,10 +50,11 @@ const SpotifyPlayerComponent = ({ accessToken, uris }) => {
                         });
                     }
                 });
-
+                // Connect the player to Spotify
                 spotifyPlayer.connect();
             };
 
+            // Load Spotify Web Playback SDK if not already loaded
             if (!window.Spotify) {
                 const script = document.createElement("script");
                 script.src = "https://sdk.scdn.co/spotify-player.js";
@@ -65,6 +70,7 @@ const SpotifyPlayerComponent = ({ accessToken, uris }) => {
         return () => player && player.disconnect();
     }, [accessToken]);
 
+    // Function to start playback of a given list of tracks
     const playTracks = (trackURIs) => {
         if (!deviceId) {
             return;
@@ -93,12 +99,14 @@ const SpotifyPlayerComponent = ({ accessToken, uris }) => {
             });
     };
 
+    // Automatically start playback if new track URIs are provided
     useEffect(() => {
         if (uris && uris.length > 0) {
             playTracks(uris);
         }
     }, [uris]);
 
+    // Function to pause playback
     const pausePlayback = () => {
         if (player) {
             player.pause().then(() => {
@@ -107,6 +115,7 @@ const SpotifyPlayerComponent = ({ accessToken, uris }) => {
         }
     };
 
+    // Function to resume playback
     const resumePlayback = () => {
         if (player) {
             player.resume().then(() => {
@@ -115,6 +124,7 @@ const SpotifyPlayerComponent = ({ accessToken, uris }) => {
         }
     };
 
+    // Function to resume playback
     const changeVolume = (value) => {
         setVolume(value);
         if (player) {

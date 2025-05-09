@@ -1,3 +1,7 @@
+Here's the updated **README.md** with the setup instructions added:
+
+---
+
 # Soundify 🎵
 
 **Your Personal AI-Powered Music Recommendation System!**
@@ -33,6 +37,7 @@ Soundify is a full-stack web application that provides personalized music recomm
 * React.js
 * Redux Toolkit (state management)
 * Ant Design (UI components)
+* Spotify API
 * Spotify Web Playback SDK
 
 ### Backend:
@@ -79,6 +84,7 @@ Soundify is a full-stack web application that provides personalized music recomm
 ### `POST /recommendations`
 
 Get 20 songs based on listening history and time of day.
+
 **Request:**
 
 ```json
@@ -107,6 +113,7 @@ Get 20 songs based on listening history and time of day.
 ### `POST /filtered-recommendations`
 
 Get recommendations filtered by genre and mood.
+
 **Request:**
 
 ```json
@@ -131,6 +138,7 @@ Get recommendations filtered by genre and mood.
 ### `POST /search-recommendations`
 
 Search for music using natural language.
+
 **Request:**
 
 ```json
@@ -156,3 +164,79 @@ Search for music using natural language.
 * Expand to platforms beyond Spotify
 * Visualize listening trends and recommendation patterns
 
+---
+
+## Setup Instructions
+
+### Frontend Setup (React.js)
+
+To set up the **frontend** and run the React.js application, follow these steps:
+
+1. **Install Dependencies:**
+   Navigate to the **music-recommendation-frontend** directory and run the following command to install the necessary node modules:
+
+   ```bash
+   npm install
+   ```
+
+2. **Start the Application:**
+   Once the dependencies are installed, run the following command to start the React application:
+
+   ```bash
+   npm start
+   ```
+
+   This will start the React development server, and you can view the app in your browser at `http://localhost:3000`.
+
+---
+
+### Backend Setup (Django)
+
+To set up the **music-recommendation-backend** and run the Django server, follow these steps:
+
+1. **Navigate to the Backend Directory:**
+   Go to the **music_backend** directory where the `manage.py` file is located.
+
+2. **Configure Python Interpreter:**
+   Ensure that your Python interpreter is configured to the correct version (Python 3.9+). If you're using an IDE like PyCharm, you can set the interpreter there.
+
+3. **Create a Virtual Environment:**
+   It's a good practice to use a virtual environment. Create one by running:
+
+   ```bash
+   python -m venv venv
+   ```
+
+   Then activate it:
+
+   * On **Windows**:
+
+     ```bash
+     venv\Scripts\activate
+     ```
+
+   * On **MacOS/Linux**:
+
+     ```bash
+     source venv/bin/activate
+     ```
+
+4. **Install Dependencies:**
+   Install the required libraries from `requirements.txt`:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+5. **Run the Backend:**
+   To start the Django development server, run the following command:
+
+   ```bash
+   python manage.py runserver
+   ```
+
+   The backend server will now be running at `http://localhost:8000`.
+
+---
+
+Now, the frontend and backend should be running, and you can interact with the AI-powered music recommendation system using your Spotify data!

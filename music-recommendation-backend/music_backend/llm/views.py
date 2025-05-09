@@ -14,6 +14,18 @@ client.api_key = os.getenv('OPENAI_API_KEY')
 
 @csrf_exempt
 def llm_recommendations(request):
+    """
+    This view handles generating music recommendations based on a user's listening history
+    and time of day. It formats the user data into a prompt for GPT-4, processes the response,
+    and returns a JSON object containing the music recommendations.
+
+    Arguments:
+    request (HttpRequest): The HTTP request object containing the user's listening history
+                            and time of day for recommendation.
+
+    Returns:
+    JsonResponse: A JSON response containing an array of music recommendations or an error message.
+    """
     if request.method == "POST":
         try:
             data = json.loads(request.body)
@@ -66,6 +78,18 @@ def llm_recommendations(request):
 
 @csrf_exempt
 def filtered_recommendations(request):
+    """
+    This view handles generating music recommendations based on a user's listening history,
+    time of day, genre preference, and mood. It formats the user data into a prompt for GPT-4,
+    processes the response, and returns a JSON object containing the music recommendations.
+
+    Arguments:
+    request (HttpRequest): The HTTP request object containing the user's listening history,
+                            genre, mood, and time of day for recommendation.
+
+    Returns:
+    JsonResponse: A JSON response containing an array of music recommendations or an error message.
+    """
     if request.method == "POST":
         try:
             data = json.loads(request.body)
@@ -129,6 +153,17 @@ def filtered_recommendations(request):
 
 @csrf_exempt
 def search_recommendations(request):
+    """
+    This view handles generating music recommendations based on a user's natural language search query.
+    It formats the query into a prompt for GPT-4, processes the response, and returns a JSON object containing
+    the music recommendations.
+
+    Arguments:
+    request (HttpRequest): The HTTP request object containing the user's query for music recommendations.
+
+    Returns:
+    JsonResponse: A JSON response containing an array of music recommendations or an error message.
+    """
     if request.method == "POST":
         try:
             data = json.loads(request.body)
