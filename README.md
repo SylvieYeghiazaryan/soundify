@@ -1,7 +1,3 @@
-Here's the updated **README.md** with the setup instructions added:
-
----
-
 # Soundify 🎵
 
 **Your Personal AI-Powered Music Recommendation System!**
